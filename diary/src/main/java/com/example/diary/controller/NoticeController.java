@@ -1,6 +1,7 @@
 package com.example.diary.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,12 @@ public class NoticeController {
 	
 	@GetMapping(value = "/noticeList")
 	public String noticeList(Model model,
-			@RequestParam(defaultValue = "1") int currentPage) {
+			@RequestParam(defaultValue = "1") int currentPage,
+			HttpSession session) {
+		
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/login";
+		}
 		
 		List<Notice> list = noticeService.noticeList(currentPage);
 		
@@ -39,14 +45,32 @@ public class NoticeController {
 	
 	@GetMapping(value = "/noticeOne")
 	public String selectNoticeOne(Notice notice, Model model,
-			@RequestParam(defaultValue = "1") int currentPage) {
+			@RequestParam(defaultValue = "1") int currentPage,
+			HttpSession session) {
+		
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/login";
+		}
+		
+		// 내가 작성한 댓글만 보기 위해 만든 memberId
+		Member member = (Member)(session.getAttribute("loginMember"));
+		String memberId = member.getMemberId();
+		model.addAttribute("memberId", memberId);
+		// ------------------------------------------------------------
+		
+		// 접속한 사람의 level 확인
+		int memberCheckLevel = member.getMemberLevel();
+		model.addAttribute("memberCheckLevel", memberCheckLevel);
+		// --------------------------------------------------------------
 		
 		System.out.println(notice.getNoticeNo());
 		
-		List<Comment> list = commentService.CommentList(currentPage);		
+		List<Comment> list = commentService.CommentList(currentPage,notice);		
 		Notice resultNotice = noticeService.noticeOne(notice);
 		
 		model.addAttribute("resultNotice", resultNotice);
+		
+		System.out.println(list);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);

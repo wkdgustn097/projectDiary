@@ -32,11 +32,62 @@
 		<a class="btn btn-primary" href="${pageContext.request.contextPath}/updateNotice?noticeNo=${resultNotice.noticeNo}">수정</a>
 		<a class="btn btn-primary" href="${pageContext.request.contextPath}/deleteNotice?noticeNo=${resultNotice.noticeNo}">삭제</a>	
 	</c:if>
-	
-	<c:forEach var="c" items="${list}">
-		${c.comment}
-		${c.memberId}
-	</c:forEach>
+	<br>
+	<h3>댓글</h3>
+	현재 페이지 : ${currentPage}
+	<br>
+	<table class="table table-bordered">
+		<tr>
+			<c:forEach var="c" items="${list}">
+				<tr>
+					<th class="table-primary">작성자</th>
+					<th class="table-primary">댓글내용</th>
+					<c:if test="${memberId eq c.memberId}">
+						<th class="table-primary">수정</th>
+					</c:if>
+					<c:if test="${memberId eq c.memberId || memberCheckLevel > 0 }">
+						<th class="table-primary">삭제</th>
+					</c:if>
+				</tr>
+				<tr>	
+					<td>${c.memberId}</td>
+					<td>
+					<c:if test="${c.isSecret == false}">
+						${c.comment}
+					</c:if>
+					<c:if test="${c.isSecret == true}">
+						비밀글입니다.
+					</c:if>
+					</td>
+					<c:if test="${memberId eq c.memberId}">
+						<td><a href="${pageContext.request.contextPath}/updateComment?commentNo=${c.commentNo}&writer=${c.memberId}&noticeNo=${c.noticeNo}">수정</a></td>
+					</c:if>
+					<c:if test="${memberId eq c.memberId || memberCheckLevel  > 0}">
+						<td><a href="${pageContext.request.contextPath}/removeComment?commentNo=${c.commentNo}&writer=${c.memberId}&noticeNo=${c.noticeNo}">삭제</a></td>
+					</c:if>
+				</tr>
+			</c:forEach>
+		</tr>
+	</table>
+		<div>
+	<a href="${pageContext.request.contextPath}/addComment?noticeNo=${resultNotice.noticeNo}" class="btn btn-primary">댓글 쓰기</a>
+	<a class="btn btn-primary" href="${pageContext.request.contextPath}/notice/noticeOne?currentPage=1&noticeNo=${resultNotice.noticeNo}">
+		처음으로
+	</a>
+	<c:if test="${currentPage > 1}">
+			<a class="btn btn-primary" href="${pageContext.request.contextPath}/notice/noticeOne?currentPage=${currentPage-1}&noticeNo=${resultNotice.noticeNo}">
+				이전
+			</a>
+	</c:if>
+	<c:if test="${currentPage < lastPage}">
+			<a class="btn btn-primary" href="${pageContext.request.contextPath}/notice/noticeOne?currentPage=${currentPage+1}&noticeNo=${resultNotice.noticeNo}">
+				다음
+			</a>
+	</c:if>
+	<a class="btn btn-primary" href="${pageContext.request.contextPath}/notice/noticeOne?currentPage=${lastPage}&noticeNo=${resultNotice.noticeNo}">
+		마지막으로
+	</a>
+	</div>
 </div>
 </body>
 </html>

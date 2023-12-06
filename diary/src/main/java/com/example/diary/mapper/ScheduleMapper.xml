@@ -23,4 +23,65 @@
 		FROM schedule 
 		WHERE YEAR(schedule_date) = #{Year} AND MONTH(schedule_date) = #{Month} AND DAY(schedule_date) = #{Day} AND member_id = #{memberId}
 	</select>
+	
+	<insert id="insertSchedule" parameterType="java.util.Map">
+		INSERT INTO schedule(schedule_date, schedule_memo,member_id, schedule_emoji) VALUES(CONCAT(#{Year},#{Month},#{Day}),#{scheduleMemo} , #{memberId}, #{emoji})
+	</insert>
+	
+	<update id="updateSchedule" parameterType="java.util.Map">
+		UPDATE schedule SET schedule_memo = #{scheduleMemo}, schedule_emoji = #{emoji} WHERE schedule_no = #{scheduleNo}
+	</update>
+	
+	<delete id="removeSchedule">
+		DELETE FROM schedule WHERE schedule_no = #{scheduleNo}
+	</delete>
+	
+	<!-- 검색 기능 -->
+	<select id="selectScheduleListByWord" resultType="com.example.diary.vo.Schedule" parameterType="String">
+		SELECT 
+			schedule_no scheduleNo,
+			schedule_memo scheduleMemo
+	    FROM schedule
+		<where>
+			<if test="word != '' ">
+				schedule_memo LIKE CONCAT('%',#{word},'%')
+			</if>
+		</where>
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
+	<select id="selectScheduleDateMaxYear" resultType="Integer">
+		SELECT MAX(YEAR(schedule_date))
+		FROM schedule
+	</select>
+	
+	<select id="selectScheduleDateMinYear" resultType="Integer">
+		SELECT MIN(YEAR(schedule_date))
+		FROM schedule
+	</select>
+	
+	<select id="selectScheduleListByDate" parameterType="java.util.Map" resultType="com.example.diary.vo.Schedule">
+		SELECT schedule_date scheduleDate,
+			   schedule_memo scheduleMemo,
+			   schedule_no scheduleNo 
+		FROM schedule 
+		<where>
+			<choose>
+				<when test="Year != null and Month == null and Day == null">
+					YEAR(schedule_date) = #{Year} 
+				</when>
+				<when test="Year != null and Month != null and Day == null">
+					YEAR(schedule_date) = #{Year}
+					AND MONTH(schedule_date) = #{Month} 
+				</when>
+				<when test="Year != null and Month != null and Day != null">
+					YEAR(schedule_date) = #{Year}
+					AND MONTH(schedule_date) = #{Month}
+					AND DAY(schedule_date) = #{Day} 
+				</when>
+			</choose>
+		</where>
+		LIMIT 0,20;
+	</select>
 </mapper>

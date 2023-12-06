@@ -29,8 +29,8 @@
 					  <td><input value="${s.scheduleDate}"></td>
 					  <td><textarea cols="30" rows="6">${s.scheduleMemo}</textarea></td>
 					  <td><input value="${s.memberId}"></td>
-					  <td><a class="btn btn-primary" href="${pageContext.request.contextPath}/schedule/modifySchedule?scheduleNo=${s.scheduleNo}">일정 수정</a></td>
-					  <td><a class="btn btn-primary" href="${pageContext.request.contextPath}/schedule/removeSchedule?scheduleNo=${s.scheduleNo}">일정 삭제</a></td>
+					  <td><a class="btn btn-primary" href="${pageContext.request.contextPath}/scheduleUpdate?scheduleNo=${s.scheduleNo}">일정 수정</a></td>
+					  <td><a class="btn btn-primary" href="${pageContext.request.contextPath}/scheduleRemove?scheduleNo=${s.scheduleNo}">일정 삭제</a></td>
 					</tr>
 			 </c:forEach>
 			</div>
@@ -38,10 +38,10 @@
 		<br>
 		<h1>일정 추가</h1>
 		<br>
-		<form id="addForm" action="${pageContext.request.contextPath}/schedule/addSchedule" method="POST">
-			<input type="hidden" name="Year" value="${param.Year}">
-			<input type="hidden" name="Month" value="${param.Month}">
-			<input type="hidden" name="Day" value="${param.Day}">
+		<form id="addForm" action="${pageContext.request.contextPath}/scheduleOne" method="POST">
+			<input type="hidden" name="Year" value="${targetYear}">
+			<input type="hidden" name="Month" value="${targetMonth}">
+			<input type="hidden" name="Day" value="${targetDay}">
 		<div>
 			<input type="radio" name="emoji" value="&#1F4DD;"><span>&#128110;</span>
 			<input type="radio" name="emoji" value="&#128186;">&#128186;
@@ -50,7 +50,7 @@
 			<input type="radio" name="emoji" value="&#127834;">&#127834;
 		</div>
 		<textarea rows="3" cols="80" id="scheduleMemo" name="scheduleMemo"></textarea>
-		<button class="btn btn-primary" type="button" id="addBtn">일정추가</button>
+		<button class="btn btn-primary" type="submit" id="addBtn">일정추가</button>
 		</form>
 	</div>
 </body>

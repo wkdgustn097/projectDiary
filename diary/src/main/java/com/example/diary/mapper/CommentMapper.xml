@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.diary.mapper.CommentMapper">
-	<select id="selectComment"  parameterType="java.util.Map" resultType="java.util.List">
+	<select id="selectCommentList"  parameterType="java.util.Map" resultType="com.example.diary.vo.Comment">
 		SELECT comment_no commentNo, 
 			   notice_no noticeNo, 
 			   member_id memberId, 
@@ -12,4 +12,18 @@
 	    FROM comment 
 	    WHERE notice_no = #{noticeNo} LIMIT #{beginRow},#{rowPerPage};
 	</select>
+	
+	<insert id="insertComment" parameterType="com.example.diary.vo.Comment">
+		INSERT INTO 
+		comment(member_id, notice_no, comment, is_secret) 
+		VALUES(#{memberId},#{noticeNo},#{comment},#{isSecret})
+	</insert>
+	
+	<update id="updateComment" parameterType="com.example.diary.vo.Comment">
+		UPDATE comment SET comment = #{comment} WHERE comment_no = #{commentNo}
+	</update>
+	
+	<delete id="removeComment" parameterType="com.example.diary.vo.Comment">
+		DELETE FROM comment WHERE comment_no = #{commentNo}
+	</delete>
 </mapper>

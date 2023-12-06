@@ -25,7 +25,7 @@
 	<update id="updateNotice" parameterType="com.example.diary.vo.Notice">
 		UPDATE notice SET notice_title = #{noticeTitle}, notice_content = #{noticeContent} WHERE notice_no = #{noticeNo};
 	</update>
-	<delete id="deleteNotice">
+	<delete id="deleteNotice" parameterType="com.example.diary.vo.Notice">
 		DELETE FROM notice WHERE notice_no = #{noticeNo} AND notice_pw = PASSWORD(#{noticePw});
 	</delete>
 </mapper>
