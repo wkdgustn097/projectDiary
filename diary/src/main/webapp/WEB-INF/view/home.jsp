@@ -6,6 +6,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+table, th, td {border: 1px solid black; border-collapse: collapse;}
+
+td:hover{background-color: lightblue;}
+
+th{font-weight: bold; height: 50px;}
+
+td{text-align: left; vertical-align: text-top; width: 200px; height: 100px; padding: 10px}
+li a{
+	display: block;
+	color:#000;
+	padding: 8px 16px;
+	text-decoration: none;
+}
+
+li a.active{
+	background-color:#04AA6D;
+	color:white;
+}
+
+li a:hover:not(.active){
+	background-color:#555;
+	color:white;
+}
+ul{
+	list-style: none; 
+	margin:0; 
+	padding:0;
+	width:10%;
+	background-color:#f1f1f1;
+	position:fixed;
+	height:100%;
+	overflow:auto;
+}
+a{color: inherit; text-decoration: none;}
+</style>
 <!-- Latest compiled and minified CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,30 +49,35 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div class="container">
-	<h1>안녕하세요.</h1>
-	<div><a style="color:pink;">${loginMember.memberId}</a>님 반갑습니다.</div>
+<div id="wrap">
+<nav id="nav">
+        <ul>
+          <li><a href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
+          <li><a href="${pageContext.request.contextPath}/noticeList">공지사항</a></li>
+          <li><a href="${pageContext.request.contextPath}/updateMember?memberNo=${loginMember.memberNo}">정보수정</a></li>
+          <li><a href="${pageContext.request.contextPath}/deleteMember?memberNo=${loginMember.memberNo}">회원탈퇴</a></li>
+          <li><p style="color:pink;">${loginMember.memberId}</p>님 반갑습니다.</li>
+        </ul>
+     </nav>
+     <div style="margin-left:10%; padding: 1px 16px; height:1000px">
 	<br>
-	<div>
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/logout">로그아웃</a>
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/noticeList">공지사항</a>
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/updateMember?memberNo=${loginMember.memberNo}">정보수정</a>
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/deleteMember?memberNo=${loginMember.memberNo}">회원탈퇴</a>
-	</div>
-	
 	<!-- 캘린더 -->
 	
 	<!--${fn:substring(sn, 0, 3) } jstl로 jsp에서 substr쓰기 -->
-	<div>
-		${calendarMap.targetYear} 년
-		${calendarMap.targetMonth + 1} 월
+	<div align="center">
+		<h1>${calendarMap.targetMonth + 1} 월</h1>
 	</div>
-	<div>
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/home?targetYear=${calendarMap.targetYear}&targetMonth=${calendarMap.targetMonth - 1}">이전달</a>
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/home?targetYear=${calendarMap.targetYear}&targetMonth=${calendarMap.targetMonth + 1}">다음달</a>
+	<div style="text-align: left; position: relative;">
+	    <p style="margin-top:50px;">${calendarMap.targetYear} 년</p>
+	    <div style="position: absolute;  bottom:10%; left: 50%; transform: translateX(-50%);" class="d-flex justify-content-center" align="center">
+	        <a class="btn btn-primary" href="${pageContext.request.contextPath}/home?targetYear=${calendarMap.targetYear}&targetMonth=${calendarMap.targetMonth - 1}">이전달</a>&nbsp;
+	        <a class="btn btn-primary" href="${pageContext.request.contextPath}/home?targetYear=${calendarMap.targetYear}&targetMonth=${calendarMap.targetMonth + 1}">다음달</a>
+	    </div>
 	</div>
-	
-	<table class="table table-bordered">
+
+	<br>
+	<br>
+	<table>
 		<tr>
 			<c:forEach var="i" begin="1" end="${calendarMap.totalTd}">
 				<c:set var="d" value="${i - calendarMap.beginBlank}"></c:set>
@@ -80,8 +121,8 @@
 			</c:forEach>
 		</tr>
 	</table>
-	
-	
 	</div>
+</div>
+
 </body>
 </html>

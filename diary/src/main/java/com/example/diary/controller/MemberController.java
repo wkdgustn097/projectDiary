@@ -46,12 +46,13 @@ public class MemberController {
 		return "redirect:/home";
 	}
 	
-	// 회원가입 폼
-	@GetMapping("/addMember")
-	public String addMember() {
-		
-		return "memberAdd";
-	}
+	/*
+	 * // 회원가입 폼
+	 * 
+	 * @GetMapping("/addMember") public String addMember() {
+	 * 
+	 * return "memberAdd"; }
+	 */
 	
 	// 회원가입 액션
 	@PostMapping("/addMember")
