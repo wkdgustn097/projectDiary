@@ -5,6 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.jb-division-line {
+  border-top: 1px solid #b2bec3;
+  margin: 30px auto;
+  width: 300px;        
+}
+</style>
 <!-- Latest compiled and minified CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,7 +20,11 @@
 </head>
 <body>
 <div class="container">
-	<h1>상세정보</h1>
+<br>
+	<h1 align="center">공지사항 상세정보</h1>
+	<div>
+		<a class="btn btn-primary" href="${pageContext.request.contextPath}/noticeList">돌아가기</a>
+	</div><br>
 	<table class="table table-bordered">
 		<tr>
 			<th>번호</th>
@@ -28,17 +39,19 @@
 			<td>${resultNotice.createdate} </td>
 		</tr>
 	</table>
-	<c:if test="${loginMember.memberLevel > 0}"> <!-- 매니저가 아니면 볼 수 없음 -->
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/updateNotice?noticeNo=${resultNotice.noticeNo}">수정</a>
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/deleteNotice?noticeNo=${resultNotice.noticeNo}">삭제</a>	
-	</c:if>
+	<div style="text-align:center;">
+		<c:if test="${loginMember.memberLevel > 0}"> <!-- 매니저가 아니면 볼 수 없음 -->
+			<a style="display :inline-block;"  class="btn btn-primary" href="${pageContext.request.contextPath}/updateNotice?noticeNo=${resultNotice.noticeNo}">수정</a>
+			<a style="display :inline-block;" class="btn btn-primary" href="${pageContext.request.contextPath}/deleteNotice?noticeNo=${resultNotice.noticeNo}">삭제</a>	
+		</c:if>
+	</div>
 	<br>
-	<h3>댓글</h3>
-	현재 페이지 : ${currentPage}
-	<br>
+	<div class="jb-division-line"></div>
+	<p style="font-size:20px;">댓글</p>
+		<br>
 	<table class="table table-bordered">
-		<tr>
-			<c:forEach var="c" items="${list}">
+		<tr>	
+			<c:if test="${list.size() != 0}">
 				<tr>
 					<th class="table-primary">작성자</th>
 					<th class="table-primary">댓글내용</th>
@@ -49,6 +62,8 @@
 						<th class="table-primary">삭제</th>
 					</c:if>
 				</tr>
+			</c:if>
+			<c:forEach var="c" items="${list}">
 				<tr>	
 					<td>${c.memberId}</td>
 					<td>
@@ -56,7 +71,7 @@
 						${c.comment}
 					</c:if>
 					<c:if test="${c.isSecret == true}">
-						비밀글입니다.
+						&#128274;
 					</c:if>
 					</td>
 					<c:if test="${memberId eq c.memberId}">
@@ -69,25 +84,38 @@
 			</c:forEach>
 		</tr>
 	</table>
-		<div>
-	<a href="${pageContext.request.contextPath}/addComment?noticeNo=${resultNotice.noticeNo}" class="btn btn-primary">댓글 쓰기</a>
-	<a class="btn btn-primary" href="${pageContext.request.contextPath}/notice/noticeOne?currentPage=1&noticeNo=${resultNotice.noticeNo}">
-		처음으로
-	</a>
-	<c:if test="${currentPage > 1}">
-			<a class="btn btn-primary" href="${pageContext.request.contextPath}/notice/noticeOne?currentPage=${currentPage-1}&noticeNo=${resultNotice.noticeNo}">
-				이전
-			</a>
-	</c:if>
-	<c:if test="${currentPage < lastPage}">
-			<a class="btn btn-primary" href="${pageContext.request.contextPath}/notice/noticeOne?currentPage=${currentPage+1}&noticeNo=${resultNotice.noticeNo}">
-				다음
-			</a>
-	</c:if>
-	<a class="btn btn-primary" href="${pageContext.request.contextPath}/notice/noticeOne?currentPage=${lastPage}&noticeNo=${resultNotice.noticeNo}">
-		마지막으로
-	</a>
-	</div>
+	<!-- 페이징 -->
+	
+	
+	<ul class="pagination justify-content-center">
+		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeOne?currentPage=1&noticeNo=${resultNotice.noticeNo}">처음으로</a></li>
+		
+		
+		<c:if test="${currentPage > 1}">
+			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeOne?currentPage=${currentPage - 1}&noticeNo=${resultNotice.noticeNo}">이전</a></li>
+			<c:if test="${currentPage > 2}">
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeOne?currentPage=${currentPage - 2}&noticeNo=${resultNotice.noticeNo}">${currentPage - 2}</a></li>
+			</c:if>
+			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeOne?currentPage=${currentPage - 1}&noticeNo=${resultNotice.noticeNo}">${currentPage - 1}</a></li>
+		</c:if>
+		
+		
+		<li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/noticeOne?currentPage=${currentPage}&noticeNo=${resultNotice.noticeNo}">${currentPage}</a></li>
+		
+		
+		<c:if test="${currentPage < lastPage}">
+			<c:if test="${currentPage + 1 <= lastPage}">
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeOne?currentPage=${currentPage+1}&noticeNo=${resultNotice.noticeNo}">${currentPage + 1}</a></li>
+			</c:if>
+			<c:if test="${currentPage + 2 <= lastPage}">
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeOne?currentPage=${currentPage+2}&noticeNo=${resultNotice.noticeNo}">${currentPage + 2}</a></li>
+			</c:if>
+			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeOne?currentPage=${currentPage+1}&noticeNo=${resultNotice.noticeNo}">다음</a></li>
+		</c:if>
+		
+		
+		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeOne?currentPage=${lastPage}&noticeNo=${resultNotice.noticeNo}">마지막으로</a></li>
+	</ul>
 </div>
 </body>
 </html>

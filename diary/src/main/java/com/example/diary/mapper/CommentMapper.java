@@ -16,4 +16,6 @@ public interface CommentMapper {
 	int updateComment (Comment comment);
 	
 	int removeComment (Comment comment);
+	
+	int commentLastpage(int noticeNo);
 }

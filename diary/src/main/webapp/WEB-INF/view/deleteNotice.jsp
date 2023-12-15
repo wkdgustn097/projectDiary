@@ -12,8 +12,11 @@
 </head>
 <body>
 <div class="container">
-
+<br>
 	<h1>공지사항 삭제</h1>
+	<div>
+		<a class="btn btn-primary" href="${pageContext.request.contextPath}/noticeOne?noticeNo=${noticeNo}">돌아가기</a>
+	</div><br>
 	<form method="post" action="${pageContext.request.contextPath}/deleteNotice">
 	<input type="hidden" value="${noticeNo}" name="noticeNo">
 		<table class="table table-bordered">

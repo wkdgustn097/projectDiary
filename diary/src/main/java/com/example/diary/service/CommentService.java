@@ -47,6 +47,18 @@ public class CommentService {
 		return resultCommentList;
 	}
 	
+	public int commentLastpage(int currentPage, Notice notice) {
+		int noticeNo = notice.getNoticeNo();
+		
+		int rowPerPage = 4;
+		int total = commentMapper.commentLastpage(noticeNo);
+		int lastPage = total/rowPerPage;
+		if(total % rowPerPage != 0) {
+			lastPage = lastPage + 1;
+		}
+		return lastPage;
+	}
+	
 	public int addComment(Comment comment) {
 		
 		int row = commentMapper.insertComment(comment);

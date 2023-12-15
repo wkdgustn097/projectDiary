@@ -13,7 +13,11 @@
 </head>
 <body>
 <div class="container">
+<br>
 	<h1>비밀번호 수정</h1>
+	<div>
+		<a class="btn btn-primary" href="${pageContext.request.contextPath}/home">돌아가기</a>
+	</div><br>
 	<form method="post" action="${pageContext.request.contextPath}/updateMember">
 	<input type="hidden" name="memberNo" value="${memberNo}">
 		<table class="table table-bordered">			

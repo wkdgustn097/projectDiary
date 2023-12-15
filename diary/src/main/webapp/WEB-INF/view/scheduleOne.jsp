@@ -17,6 +17,13 @@
 	<div class="container">
 	<h1>${targetYear}년 ${targetMonth}월 ${targetDay}일 일정리스트</h1>
 	<br>
+	<c:forEach var="s" items="${scheduleList}">
+		<div class="alert alert-success">
+			<span>${s.scheduleDate}</span>
+			<span>${s.scheduleMemo}</span>
+			<span>${s.memberId}</span>
+		</div>
+	</c:forEach>
 		<table class="table table-bordered">
 			<div>
 				<tr>
@@ -26,9 +33,9 @@
 				</tr>
 				<c:forEach var="s" items="${scheduleList}">
 					<tr>
-					  <td><input value="${s.scheduleDate}"></td>
-					  <td><textarea cols="30" rows="6">${s.scheduleMemo}</textarea></td>
-					  <td><input value="${s.memberId}"></td>
+					  <td><span>${s.scheduleDate}</span></td>
+					  <td><textarea cols="30" rows="3">${s.scheduleMemo}</textarea></td>
+					  <td>${s.memberId}</td>
 					  <td><a class="btn btn-primary" href="${pageContext.request.contextPath}/scheduleUpdate?scheduleNo=${s.scheduleNo}">일정 수정</a></td>
 					  <td><a class="btn btn-primary" href="${pageContext.request.contextPath}/scheduleRemove?scheduleNo=${s.scheduleNo}">일정 삭제</a></td>
 					</tr>

@@ -37,8 +37,14 @@ public class NoticeController {
 		
 		List<Notice> list = noticeService.noticeList(currentPage);
 		
+		// lastPage 구하기
+		
+		int lastPage = noticeService.noticeLastpage(currentPage);
+		
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+
 		
 		return "noticeList";
 	}
@@ -65,7 +71,12 @@ public class NoticeController {
 		
 		System.out.println(notice.getNoticeNo());
 		
-		List<Comment> list = commentService.CommentList(currentPage,notice);		
+		// 페이
+		List<Comment> list = commentService.CommentList(currentPage,notice);
+		int lastPage = commentService.commentLastpage(currentPage,notice);
+		System.out.println(lastPage);
+		// ----------------------------------------------------------------
+		
 		Notice resultNotice = noticeService.noticeOne(notice);
 		
 		model.addAttribute("resultNotice", resultNotice);
@@ -74,7 +85,7 @@ public class NoticeController {
 		
 		model.addAttribute("list", list);
 		model.addAttribute("currentPage", currentPage);
-		
+		model.addAttribute("lastPage", lastPage);
 		return "noticeOne";
 	}
 	

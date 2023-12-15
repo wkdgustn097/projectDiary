@@ -13,7 +13,11 @@
 </head>
 <body>
 <div class="container">
+<br>
 	<h1>회원탈퇴</h1>
+	<div>
+		<a class="btn btn-primary" href="${pageContext.request.contextPath}/home">돌아가기</a>
+	</div><br>
 	<form method="post" action="${pageContext.request.contextPath}/deleteMember">
 	<input type="hidden" value="${memberNo}" name="memberNo">
 		<table class="table table-bordered">

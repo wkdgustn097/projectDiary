@@ -13,12 +13,13 @@
 </head>
 <body>
 <div class="container">
-	현재 페이지 : ${currentPage}<br><br>
-	<c:if test="${loginMember.memberLevel > 0}"> <!-- 매니저가 아니면 볼 수 없음 -->
-		<a class="btn btn-primary" href="${pageContext.request.contextPath}/addNotice">추가</a><br>
-	</c:if>
 	<br>
-	<h1>공지 리스트</h1>
+	<c:if test="${loginMember.memberLevel > 0}"> <!-- 매니저가 아니면 볼 수 없음 -->
+		<a class="btn btn-primary" href="${pageContext.request.contextPath}/addNotice">추가</a>
+	</c:if>
+		<a class="btn btn-primary" href="${pageContext.request.contextPath}/home">홈으로</a><br>
+	<br>
+	<h1>공지사항</h1>
 	<table class="table table-bordered">
 		<tr>
 			<th>번호</th>
@@ -31,10 +32,39 @@
 			<tr>
 		</c:forEach>
 	</table>
-	<c:if test="${currentPage > 1}">
-		<a href="${pageContext.request.contextPath}/noticeList?currentPage=${currentPage - 1}">이전</a>
-	</c:if>
-	<a href="${pageContext.request.contextPath}/noticeList?currentPage=${currentPage + 1}">다음</a>
+	
+	<!-- 페이징 -->
+	
+	
+	<ul class="pagination justify-content-center">
+		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeList?currentPage=1">처음으로</a></li>
+		
+		
+		<c:if test="${currentPage > 1}">
+			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeList?currentPage=${currentPage - 1}">이전</a></li>
+			<c:if test="${currentPage > 2}">
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeList?currentPage=${currentPage - 2}">${currentPage - 2}</a></li>
+			</c:if>
+			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeList?currentPage=${currentPage - 1}">${currentPage - 1}</a></li>
+		</c:if>
+		
+		
+		<li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/noticeList?currentPage=${currentPage}">${currentPage}</a></li>
+		
+		
+		<c:if test="${currentPage < lastPage}">
+			<c:if test="${currentPage + 1 <= lastPage}">
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeList?currentPage=${currentPage+1}">${currentPage + 1}</a></li>
+			</c:if>
+			<c:if test="${currentPage + 2 <= lastPage}">
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeList?currentPage=${currentPage+2}">${currentPage + 2}</a></li>
+			</c:if>
+			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeList?currentPage=${currentPage+1}">다음</a></li>
+		</c:if>
+		
+		
+		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/noticeList?currentPage=${lastPage}">마지막으로</a></li>
+	</ul>
 </div>
 </body>
 </html>

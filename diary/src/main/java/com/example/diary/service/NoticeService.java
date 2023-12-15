@@ -36,6 +36,16 @@ public class NoticeService {
 		return resultNoticeList;
 	}
 	
+	public int noticeLastpage(int currentPage) {
+		int rowPerPage = 4;
+		int total = noticeMapper.noticeLastpage();
+		int lastPage = total/rowPerPage;
+		if(total % rowPerPage != 0) {
+			lastPage = lastPage + 1;
+		}
+		return lastPage;
+	}
+	
 	public Notice noticeOne(Notice notice) {
 		
 		Notice resultNotice = noticeMapper.selectNoticeOne(notice);

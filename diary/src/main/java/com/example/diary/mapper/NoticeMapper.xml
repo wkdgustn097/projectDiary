@@ -28,4 +28,8 @@
 	<delete id="deleteNotice" parameterType="com.example.diary.vo.Notice">
 		DELETE FROM notice WHERE notice_no = #{noticeNo} AND notice_pw = PASSWORD(#{noticePw});
 	</delete>
+	
+	<select id="noticeLastpage" resultType="int">
+		SELECT COUNT(*) FROM notice;
+	</select>
 </mapper>

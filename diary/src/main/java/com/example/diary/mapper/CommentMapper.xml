@@ -26,4 +26,8 @@
 	<delete id="removeComment" parameterType="com.example.diary.vo.Comment">
 		DELETE FROM comment WHERE comment_no = #{commentNo}
 	</delete>
+	
+	<select id="commentLastpage" resultType="int">
+		SELECT COUNT(*) FROM comment WHERE notice_no = ${noticeNo};
+	</select>
 </mapper>

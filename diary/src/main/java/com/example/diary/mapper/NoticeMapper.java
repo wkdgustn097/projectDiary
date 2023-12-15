@@ -20,4 +20,5 @@ public interface NoticeMapper {
 	
 	int deleteNotice(Notice noitce);
 
+	int noticeLastpage();
 }
