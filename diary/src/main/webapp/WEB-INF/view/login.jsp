@@ -257,8 +257,8 @@ footer a {
   <div class="form-container sign-in-container">
     <form method="post" action="${pageContext.request.contextPath}/login">
       <h1>로그인</h1>
-      <input type="text" name="memberId">
-      <input type="password" name="memberPw">
+      <input type="text" name="memberId" value="goodee">
+      <input type="password" name="memberPw" value="1234">
       <button>로그인</button>
     </form>
   </div>
@@ -283,12 +283,12 @@ const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container');
 
-signUpButton.addEventListener('click', () => {
-  container.classList.add("right-panel-active");
-});
-
-signInButton.addEventListener('click', () => {
-  container.classList.remove("right-panel-active");
-});
+	signUpButton.addEventListener('click', () => {
+	  container.classList.add("right-panel-active");
+	});
+	
+	signInButton.addEventListener('click', () => {
+	  container.classList.remove("right-panel-active");
+	});
 </script>
 </html>
